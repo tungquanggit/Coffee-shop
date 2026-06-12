@@ -1,0 +1,57 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+}
+
+header{
+    background:#6f4e37;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+section{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:10px;
+}
+
+#menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.card{
+    border:1px solid #ddd;
+    padding:15px;
+    border-radius:10px;
+}
+
+button{
+    background:#6f4e37;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    box-sizing:border-box;
+}
+
+.cart-item{
+    border-bottom:1px solid #ddd;
+    padding:10px;
+}
+
+.qty-btn{
+    width:30px;
+    height:30px;
+}

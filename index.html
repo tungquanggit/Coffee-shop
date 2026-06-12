@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Quán Cà Phê</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>☕ Coffee Management System</h1>
+</header>
+<!-- Nút quản lý -->
+<button id="adminBtn" onclick="window.location.href='admin.html'">
+    ⚙ Quản lý
+</button>
+<!-- MENU -->
+<section>
+    <h2>🍹 Thực Đơn</h2>
+
+    <input type="text" id="search" placeholder="Tìm món...">
+
+    <select id="categoryFilter">
+        <option value="all">Tất cả</option>
+        <option value="Cà phê">Cà phê</option>
+        <option value="Trà">Trà</option>
+        <option value="Sinh tố">Sinh tố</option>
+        <option value="Nước ép">Nước ép</option>
+        <option value="Bánh">Bánh</option>
+    </select>
+
+    <div id="menu"></div>
+</section>
+
+<!-- GIỎ HÀNG -->
+<section>
+    <h2>🛒 Giỏ Hàng</h2>
+
+    <div id="cart"></div>
+
+    <p>Tạm tính: <span id="subtotal">0</span> VNĐ</p>
+    <p>Phí dịch vụ (5%): <span id="serviceFee">0</span> VNĐ</p>
+    <h3>Tổng cộng: <span id="total">0</span> VNĐ</h3>
+</section>
+
+<!-- ĐẶT BÀN -->
+<section>
+    <h2>📅 Đặt Bàn</h2>
+<form id="bookingForm">
+
+    <input type="text" id="customerName"
+        placeholder="Tên khách hàng" required>
+
+    <input type="tel" id="customerPhone"
+        placeholder="Số điện thoại" required>
+
+    <input type="datetime-local"
+        id="bookingTime" required>
+
+    <input type="number"
+        id="peopleCount"
+        placeholder="Số người" required>
+
+    <select id="tableSelect" required>
+        <option value="">Chọn bàn</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+    </select>
+
+    <textarea id="note"
+        placeholder="Ghi chú"></textarea>
+
+    <button type="submit">
+        Đặt Bàn
+    </button>
+
+</form>
+
+    <p id="bookingMessage"></p>
+</section>
+
+<!-- THANH TOÁN -->
+<section>
+    <h2>💳 Thanh Toán</h2>
+
+    <select id="paymentMethod">
+        <option>Tiền mặt</option>
+        <option>MoMo</option>
+        <option>Chuyển khoản</option>
+        <option>Thẻ ngân hàng</option>
+    </select>
+
+    <div id="paymentInfo"></div>
+
+    <button onclick="checkout()">Thanh Toán</button>
+
+    <p id="orderResult"></p>
+</section>
+
+<!-- KHIẾU NẠI -->
+<section>
+    <h2>📣 Khiếu Nại</h2>
+
+    <form id="complaintForm">
+        <input type="text" placeholder="Họ tên" required>
+
+        <select required>
+            <option>Dịch vụ</option>
+            <option>Đồ uống</option>
+            <option>Thanh toán</option>
+            <option>Nhân viên</option>
+            <option>Đặt bàn</option>
+            <option>Khác</option>
+        </select>
+
+        <textarea placeholder="Nội dung khiếu nại"></textarea>
+
+        <button type="submit">Gửi</button>
+    </form>
+
+    <p id="complaintMessage"></p>
+</section>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập quản lý quán cà phê</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            background:#f5f5f5;
+        }
+
+        .login-box{
+            background:white;
+            padding:30px;
+            width:350px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-box h1{
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .login-box p{
+            text-align:center;
+            margin-bottom:15px;
+        }
+
+        .login-box input{
+            width:100%;
+            padding:12px;
+            margin:8px 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        .login-btn{
+            width:100%;
+            padding:12px;
+            border:none;
+            background:#6f4e37;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        .login-btn:hover{
+            opacity:0.9;
+        }
+
+        #adminBtn{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            border:none;
+            background:#555;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        #loginError{
+            color:red;
+            text-align:center;
+            margin-top:10px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+
+        <h1>☕ Brew & Co.</h1>
+        <p>Đăng nhập hệ thống</p>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Tên đăng nhập">
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Mật khẩu">
+
+        <button
+            class="login-btn"
+            onclick="login()">
+            Đăng nhập
+        </button>
+
+        <p id="loginError"></p>
+
+        <button
+            id="adminBtn"
+            onclick="window.location.href='index.html'">
+            ⚙ Quay lại
+        </button>
+
+    </div>
+</div>
+
+<script>
+function login() {
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value.trim();
+
+    const error =
+        document.getElementById("loginError");
+
+    if(username === "admin" && password === "123456"){
+
+        error.innerHTML = "✅ Đăng nhập thành công...";
+
+        setTimeout(() => {
+            window.location.href = "quanly.html";
+        }, 1000);
+
+    }else{
+
+        error.innerHTML =
+            "❌ Tài khoản hoặc mật khẩu sai!";
+    }
+}
+
+// Enter để đăng nhập
+document.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        login();
+    }
+});
+</script>
+
+</body>
+</html>
