@@ -43,10 +43,7 @@ function loadTables() {
 
     if (!tableSelect) return;
 
-    const tables =
-    JSON.parse(
-        localStorage.getItem("tables")
-    ) || [];
+    tables = JSON.parse(localStorage.getItem("tables")) || tables;
 
     tableSelect.innerHTML =
     '<option value="">Chọn bàn</option>';
@@ -62,7 +59,14 @@ function loadTables() {
     });
 }
 
-loadTables();
+function initTablePage() {
+    tables = JSON.parse(localStorage.getItem("tables")) || tables;
+    loadTables();
+    renderTables();
+    renderStats();
+}
+
+initTablePage();
 
 document
 .getElementById("bookingForm")
