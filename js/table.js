@@ -256,16 +256,24 @@ function renderTables() {
                 `
             }
 
-            <button
-                onclick="toggleTable(${table.id})">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button
+                    onclick="toggleTable(${table.id})">
 
-                ${
-                    table.status === "Trống"
-                    ? "📅 Đặt bàn"
-                    : "✅ Trả bàn"
-                }
+                    ${
+                        table.status === "Trống"
+                        ? "📅 Đặt bàn"
+                        : "✅ Trả bàn"
+                    }
 
-            </button>
+                </button>
+
+                <button
+                    onclick="deleteTable(${table.id})"
+                    style="background:#dc3545; color:white; border:none;">
+                    🗑️ Xóa bàn
+                </button>
+            </div>
 
         </div>
         `;
@@ -298,6 +306,28 @@ function addTable() {
     alert(
         `✅ Đã thêm Bàn ${newId}`
     );
+}
+
+function deleteTable(id) {
+
+    const table = tables.find(t => t.id === id);
+
+    if (!table) return;
+
+    if (table.status === "Đang dùng") {
+        alert("❌ Không thể xóa bàn đang được sử dụng.");
+        return;
+    }
+
+    const confirmDelete = confirm(`Xác nhận xóa Bàn ${table.id}?`);
+
+    if (!confirmDelete) return;
+
+    tables = tables.filter(t => t.id !== id);
+
+    saveTables();
+
+    alert(`🗑️ Đã xóa Bàn ${id}`);
 }
 
 // ======================
