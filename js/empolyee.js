@@ -5,19 +5,41 @@ JSON.parse(
 
     {
         id:1,
-        name:"Nguyễn Văn A",
-        role:"Barista"
+        name:"Tống Quang Tùng",
+        role:"Quản Lý",
+        shift:"Full time",
+        salary:100000000
     },
 
     {
         id:2,
-        name:"Trần Thị B",
-        role:"Thu ngân"
+        name:"Lê Quang Linh",
+        role:"Oder",
+        shift:"Full time",
+        salary:5000000
+    },
+
+    {
+        id:3,
+        name:"Lê Duy Phong",
+        role:"Pha chế",
+        shift:"Sáng (7h-14h)",
+        salary:6000000
+    },
+    
+    {
+        id:3,
+        name:"Đặng Tuấn Anh",
+        role:"Pha chế",
+        shift:"Chiều (14h-21h)",
+        salary:6000000
     }
 
 ];
 
-function saveEmployees(){
+let currentEditingId = null;
+
+function saveEmployeesToStorage(){
 
     localStorage.setItem(
         "employees",
@@ -47,6 +69,10 @@ function renderEmployees(){
 
             <td>${emp.role}</td>
 
+            <td>${emp.shift}</td>
+
+            <td>${emp.salary.toLocaleString('vi-VN')} ₫</td>
+
             <td>
 
                 <button
@@ -74,59 +100,86 @@ function renderEmployees(){
 
 function openEmployeeModal(){
 
-    const name =
-    prompt(
-        "Tên nhân viên:"
-    );
+    currentEditingId = null;
+    
+    document.getElementById("modalTitle").textContent = "Thêm nhân viên";
+    document.getElementById("employeeForm").reset();
+    document.getElementById("empName").value = "";
+    document.getElementById("empRole").value = "";
+    document.getElementById("empShift").value = "";
+    document.getElementById("empSalary").value = "";
+    
+    const modal = document.getElementById("employeeModal");
+    if(modal) modal.classList.remove("hidden");
+}
 
-    if(!name) return;
+function closeEmployeeModal(){
 
-    const role =
-    prompt(
-        "Chức vụ:"
-    );
+    const modal = document.getElementById("employeeModal");
+    if(modal) modal.classList.add("hidden");
+}
 
-    employees.push({
+function saveEmployee(event){
 
-        id:Date.now(),
-        name,
-        role
+    event.preventDefault();
 
-    });
+    const name = document.getElementById("empName").value;
+    const role = document.getElementById("empRole").value;
+    const shift = document.getElementById("empShift").value;
+    const salary = parseInt(document.getElementById("empSalary").value);
 
-    saveEmployees();
+    if(!name || !role || !shift || !salary){
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    if(currentEditingId){
+        
+        const emp = employees.find(e=>e.id===currentEditingId);
+        if(emp){
+            emp.name = name;
+            emp.role = role;
+            emp.shift = shift;
+            emp.salary = salary;
+        }
+    } else {
+        
+        employees.push({
+            id: Date.now(),
+            name,
+            role,
+            shift,
+            salary
+        });
+    }
+
+    saveEmployeesToStorage();
+    closeEmployeeModal();
 }
 
 function editEmployee(id){
 
-    const emp =
-    employees.find(
-        e=>e.id===id
-    );
+    const emp = employees.find(e=>e.id===id);
+    
+    if(!emp) return;
 
-    const newName =
-    prompt(
-        "Tên mới:",
-        emp.name
-    );
-
-    const newRole =
-    prompt(
-        "Chức vụ:",
-        emp.role
-    );
-
-    emp.name=newName;
-    emp.role=newRole;
-
-    saveEmployees();
+    currentEditingId = id;
+    
+    document.getElementById("modalTitle").textContent = "Chỉnh sửa nhân viên";
+    document.getElementById("empName").value = emp.name;
+    document.getElementById("empRole").value = emp.role;
+    document.getElementById("empShift").value = emp.shift;
+    document.getElementById("empSalary").value = emp.salary;
+    
+    const modal = document.getElementById("employeeModal");
+    if(modal) modal.classList.remove("hidden");
 }
 
 function deleteEmployee(id){
 
     if(
         confirm(
-            "Xóa nhân viên?"
+            "Xóa nhân viên này?"
         )
     ){
 
@@ -135,7 +188,7 @@ function deleteEmployee(id){
             e=>e.id!==id
         );
 
-        saveEmployees();
+        saveEmployeesToStorage();
     }
 }
 
