@@ -23,6 +23,29 @@ const products = [
 let cart=[];
 
 const menu=document.getElementById("menu");
+const paymentMethodSelect=document.getElementById("paymentMethod");
+const paymentInfo=document.getElementById("paymentInfo");
+const paymentQr=document.getElementById("paymentQr");
+
+const BANK_TRANSFER_INFO={
+account:"0814396197",
+bankName:"MB - Ngân hàng TMCP Quân đội",
+bankCode:"MB"
+};
+
+function buildVietQrUrl(amount, content){
+const params=new URLSearchParams({
+account:BANK_TRANSFER_INFO.account,
+bank:BANK_TRANSFER_INFO.bankCode,
+amount:Math.round(amount),
+addInfo:content
+});
+return `https://vietqr.net/?${params.toString()}`;
+}
+
+function buildVietQrImageUrl(amount, content){
+return `https://img.vietqr.io/image/${BANK_TRANSFER_INFO.bankCode}-${BANK_TRANSFER_INFO.account}-compact2.png?amount=${Math.round(amount)}&addInfo=${encodeURIComponent(content)}`;
+}
 
 function renderMenu(list=products){
 
@@ -284,25 +307,25 @@ function(e){
 });
 /* THANH TOÁN */
 
-document.getElementById("paymentMethod")
-.addEventListener("change",function(){
-
-const info=
-document.getElementById("paymentInfo");
+paymentMethodSelect.addEventListener("change",function(){
 
 if(this.value==="MoMo"){
-info.innerHTML=
+paymentInfo.innerHTML=
 "MoMo: 0867814474";
+paymentQr.innerHTML="";
 }
 else if(this.value==="Chuyển khoản"){
-info.innerHTML=
+paymentInfo.innerHTML=
 `
-Ngân hàng ABC<br>
-STK: 123456789
+<strong>Ngân hàng:</strong> ${BANK_TRANSFER_INFO.bankName}<br>
+<strong>STK:</strong> ${BANK_TRANSFER_INFO.account}<br>
+<p style="margin:8px 0;">Sau khi đặt món, hệ thống sẽ tạo mã QR với số tiền và nội dung hóa đơn tự động.</p>
 `;
+paymentQr.innerHTML="";
 }
 else{
-info.innerHTML="";
+paymentInfo.innerHTML="";
+paymentQr.innerHTML="";
 }
 });
 function checkout(){
@@ -331,13 +354,17 @@ function checkout(){
 
     const service = subtotal * 0.05;
     const total = subtotal + service;
+    const paymentMethod = paymentMethodSelect.value;
+    const invoiceCode = "OD" + Date.now();
 
     const orderData = {
-        id: "OD" + Date.now(),
+        id: invoiceCode,
         table: table,
         time: new Date().toLocaleString(),
         items: [...cart],
-        total: total
+        total: total,
+        paymentMethod: paymentMethod,
+        paymentContent: invoiceCode
     };
 
     orders.push(orderData);
@@ -346,6 +373,20 @@ function checkout(){
         "coffeeOrders",
         JSON.stringify(orders)
     );
+
+    if(paymentMethod === "Chuyển khoản"){
+        const qrUrl = buildVietQrUrl(orderData.total, orderData.id);
+        const qrImageUrl = buildVietQrImageUrl(orderData.total, orderData.id);
+        paymentInfo.innerHTML = `
+            <strong>Ngân hàng:</strong> ${BANK_TRANSFER_INFO.bankName}<br>
+            <strong>STK:</strong> ${BANK_TRANSFER_INFO.account}<br>
+            <strong>Số tiền:</strong> ${orderData.total.toLocaleString()} VNĐ<br>
+            <strong>Nội dung:</strong> ${orderData.id}<br>
+        `;
+        paymentQr.innerHTML = `
+            <img src="${qrImageUrl}" alt="Mã QR chuyển khoản" style="max-width: 240px; width: 100%; border: 1px solid #ddd; border-radius: 8px; background: white;">
+        `;
+    }
 
     document.getElementById("orderResult").innerHTML =
     `✅ Thanh toán thành công

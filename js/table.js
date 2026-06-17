@@ -441,4 +441,9 @@ window.addEventListener("storage", () => {
 
     renderTables();
     renderStats();
+    loadDashboard();
+
+    if(typeof loadOrders === "function"){
+        loadOrders();
+    }
 });

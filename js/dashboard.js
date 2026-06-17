@@ -65,3 +65,7 @@ function updateEmployeeCount(){
         element.textContent = employees.length;
     }
 }
+
+window.addEventListener("storage", () => {
+    loadDashboard();
+});

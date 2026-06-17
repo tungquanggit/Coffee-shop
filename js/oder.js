@@ -69,6 +69,8 @@ function loadOrders(){
             </div>
         `;
     });
+
+    loadDashboard();
 }
 
 function viewOrderDetail(orderId){
@@ -159,5 +161,10 @@ function closeOrderDetail(){
         .getElementById("orderDetailModal")
         .classList.add("hidden");
 }
+
+window.addEventListener("storage", () => {
+    loadOrders();
+    loadDashboard();
+});
 
 loadOrders();
