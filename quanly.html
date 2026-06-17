@@ -176,12 +176,15 @@
             <!-- ORDERS -->
             <section id="orders" class="page">
 
-                <h2>Lịch sử</h2>
+                <div class="orders-header">
+                    <h2>📋 Lịch sử đơn hàng</h2>
+                </div>
+
+                <div id="orderManagement" class="order-management"></div>
 
                 <div id="menuOrderList"></div>
 
                 <div id="currentOrder"></div>
-
 
             </section>
 
@@ -229,13 +232,17 @@
             </form>
         </div>
     </div>
- <!--Quản lý đơn hàng-->
-    <section>
-        <h2>📋 Kiểm Soát Đơn Hàng</h2>
 
-        <div id="orderManagement"></div>
-    </section>
-    
+    <!-- ORDER DETAIL MODAL -->
+    <div id="orderDetailModal" class="modal hidden">
+        <div class="modal-content order-detail-modal">
+            <div class="modal-header">
+                <h3 id="orderDetailTitle">Chi tiết đơn hàng</h3>
+                <button class="close-btn" onclick="closeOrderDetail()">×</button>
+            </div>
+            <div id="orderDetailContent"></div>
+        </div>
+    </div>
 
     <script src="js/login.js"></script>
     <script src="js/menu.js"></script>

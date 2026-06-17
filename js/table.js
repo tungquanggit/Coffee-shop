@@ -172,6 +172,7 @@ function saveTables(){
 
     renderTables();
     renderStats();
+    loadDashboard();
 }
 
 // ======================

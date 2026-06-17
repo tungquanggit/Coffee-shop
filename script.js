@@ -336,7 +336,6 @@ function checkout(){
         id: "OD" + Date.now(),
         table: table,
         time: new Date().toLocaleString(),
-        status: "Chờ pha chế",
         items: [...cart],
         total: total
     };

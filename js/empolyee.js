@@ -47,6 +47,7 @@ function saveEmployeesToStorage(){
     );
 
     renderEmployees();
+    loadDashboard();
 }
 
 function renderEmployees(){
