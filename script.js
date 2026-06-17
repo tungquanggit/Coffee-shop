@@ -307,70 +307,51 @@ info.innerHTML="";
 });
 function checkout(){
 
-    if(cart.length===0){
-
-        alert(
-            "Giỏ hàng đang trống!"
-        );
-
+    if(cart.length === 0){
+        alert("Giỏ hàng đang trống!");
         return;
     }
 
-    const order =
-    "OD" +
-    Math.floor(
-        Math.random()*100000
+    const table =
+        document.getElementById("tableSelect").value;
+
+    if(!table){
+        alert("Vui lòng chọn bàn!");
+        return;
+    }
+
+    let orders =
+        JSON.parse(localStorage.getItem("coffeeOrders")) || [];
+
+    let subtotal = 0;
+
+    cart.forEach(item => {
+        subtotal += item.price * item.qty;
+    });
+
+    const service = subtotal * 0.05;
+    const total = subtotal + service;
+
+    const orderData = {
+        id: "OD" + Date.now(),
+        table: table,
+        time: new Date().toLocaleString(),
+        status: "Chờ pha chế",
+        items: [...cart],
+        total: total
+    };
+
+    orders.push(orderData);
+
+    localStorage.setItem(
+        "coffeeOrders",
+        JSON.stringify(orders)
     );
 
-    document.getElementById(
-        "orderResult"
-    ).innerHTML =
-
+    document.getElementById("orderResult").innerHTML =
     `✅ Thanh toán thành công
-    <br>Mã đơn:
-    <b>${order}</b>`;
+    <br>Mã đơn: <b>${orderData.id}</b>`;
 
-    cart=[];
-
+    cart = [];
     renderCart();
-
-    localStorage.removeItem(
-        "cart"
-    );
 }
-
-/* KHIẾU NẠI */
-
-document.getElementById("complaintForm")
-.addEventListener("submit",function(e){
-
-e.preventDefault();
-
-document.getElementById("complaintMessage")
-.innerHTML=
-"📩 Khiếu nại đã được ghi nhận. Chúng tôi sẽ phản hồi trong 24h.";
-});
-
-/* ĐÁNH GIÁ */
-
-document.getElementById("reviewForm")
-.addEventListener("submit",function(e){
-
-e.preventDefault();
-
-const rating=
-document.getElementById("rating").value;
-
-const text=
-document.getElementById("reviewText").value;
-
-document.getElementById("reviews")
-.innerHTML+=`
-<div class="card">
-<h4>${"⭐".repeat(rating)}</h4>
-<p>${text}</p>
-</div>
-`;
-
-this.reset();
-});

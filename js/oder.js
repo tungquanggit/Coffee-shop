@@ -1,151 +1,91 @@
-let currentOrder = [];
+function loadOrders(){
 
-let orders =
-JSON.parse(
-    localStorage.getItem("orders")
-) || [];
-
-function renderOrderMenu(){
+    const orders =
+        JSON.parse(
+            localStorage.getItem("coffeeOrders")
+        ) || [];
 
     const container =
-    document.getElementById(
-        "menuOrderList"
-    );
+        document.getElementById("orderManagement");
 
-    if(!container) return;
+    container.innerHTML = "";
 
-    container.innerHTML="";
+    orders.forEach(order=>{
 
-    menuList.forEach(item=>{
+        let itemsHTML = "";
+
+        order.items.forEach(item=>{
+
+            itemsHTML += `
+                <li>
+                    ${item.name}
+                    x${item.qty}
+                </li>
+            `;
+        });
 
         container.innerHTML += `
-        <div
-            class="menu-order-item"
-            onclick="addToOrder(${item.id})">
+            <div class="card">
 
-            <h3>${item.name}</h3>
+                <h3>
+                    🪑 Bàn ${order.table}
+                </h3>
 
-            <p>
-                ${item.price.toLocaleString("vi-VN")}
-                ₫
-            </p>
+                <p>
+                    ${order.time}
+                </p>
 
-        </div>
+                <ul>
+                    ${itemsHTML}
+                </ul>
+
+                <p>
+                    💰
+                    ${order.total.toLocaleString()}
+                    VNĐ
+                </p>
+
+                <p>
+                    ${order.status}
+                </p>
+
+            </div>
         `;
     });
 }
 
-function addToOrder(id){
+loadOrders();
 
-    const item =
-    menuList.find(
-        m=>m.id===id
-    );
+container.innerHTML += `
+<div class="order-card">
 
-    currentOrder.push(item);
+    <h3>🪑 Bàn ${order.table}</h3>
 
-    renderCurrentOrder();
-}
+    <div class="order-time">
+        ${order.time}
+    </div>
 
-function renderCurrentOrder(){
-
-    const container =
-    document.getElementById(
-        "currentOrder"
-    );
-
-    if(!container) return;
-
-    let total = 0;
-
-    let html =
-    `
-    <h3>Đơn hàng hiện tại</h3>
-    <ul>
-    `;
-
-    currentOrder.forEach(item=>{
-
-        total += item.price;
-
-        html += `
-        <li>
-
-            ${item.name}
-            -
-            ${item.price.toLocaleString("vi-VN")} ₫
-
-        </li>
-        `;
-    });
-
-    html += `
+    <ul class="order-items">
+        ${itemsHTML}
     </ul>
 
-    <h2>
-        Tổng:
-        ${total.toLocaleString("vi-VN")}
-        ₫
-    </h2>
-    `;
+    <div class="order-total">
+        💰 ${order.total.toLocaleString()} VNĐ
+    </div>
 
-    container.innerHTML = html;
-}
+    <div class="order-status waiting">
+        ${order.status}
+    </div>
 
-function checkout(){
+    <div class="order-actions">
+        <button class="btn-making">
+            Đang làm
+        </button>
 
-    if(currentOrder.length===0){
+        <button class="btn-done">
+            Hoàn thành
+        </button>
+    </div>
 
-        alert(
-            "Chưa có món nào."
-        );
-
-        return;
-    }
-
-    let total = 0;
-
-    currentOrder.forEach(item=>{
-
-        total += item.price;
-
-    });
-
-    const order = {
-
-        id: Date.now(),
-
-        date:
-        new Date()
-        .toLocaleString("vi-VN"),
-
-        items: currentOrder,
-
-        total
-
-    };
-
-    orders.push(order);
-
-    localStorage.setItem(
-
-        "orders",
-
-        JSON.stringify(orders)
-
-    );
-
-    alert(
-        "Thanh toán thành công\n\nTổng tiền: "
-        +
-        total.toLocaleString("vi-VN")
-        +
-        " ₫"
-    );
-
-    currentOrder=[];
-
-    renderCurrentOrder();
-
-    loadDashboard();
-}
+</div>
+`;
