@@ -94,12 +94,17 @@ function openMenuModal(){
 
     if(!price) return;
 
+   const category =
+prompt(
+    "Danh mục (Cà phê / Trà / Sinh tố / Nước ép / Bánh):"
+);
+
     menuList.push({
-
-        id:Date.now(),
-        name,
-        price
-
+                    
+    id:Date.now(),
+    name,
+    price,
+    category
     });
 
     saveMenu();

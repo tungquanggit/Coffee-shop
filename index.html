@@ -47,6 +47,7 @@
 <!-- ĐẶT BÀN -->
 <section>
     <h2>📅 Đặt Bàn</h2>
+    <p>*Lưu ý: Thanh toán trước khi đặt bàn</p>
 <form id="bookingForm">
 
     <input type="text" id="customerName"
@@ -105,38 +106,13 @@
     </select>
 
     <div id="paymentInfo"></div>
+    <div id="paymentQr" style="margin-top: 10px; text-align: center;"></div>
 
     <button onclick="checkout()">Thanh Toán</button>
 
     <p id="orderResult"></p>
 </section>
-<button onclick="checkout()">
-    Thanh Toán
-</button>
 
-<!-- KHIẾU NẠI -->
-<section>
-    <h2>📣 Khiếu Nại</h2>
-
-    <form id="complaintForm">
-        <input type="text" placeholder="Họ tên" required>
-
-        <select required>
-            <option>Dịch vụ</option>
-            <option>Đồ uống</option>
-            <option>Thanh toán</option>
-            <option>Nhân viên</option>
-            <option>Đặt bàn</option>
-            <option>Khác</option>
-        </select>
-
-        <textarea placeholder="Nội dung khiếu nại"></textarea>
-
-        <button type="submit">Gửi</button>
-    </form>
-
-    <p id="complaintMessage"></p>
-</section>
 <script src="script.js"></script>
 
 </body>

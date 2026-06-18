@@ -172,6 +172,7 @@ function saveTables(){
 
     renderTables();
     renderStats();
+    loadDashboard();
 }
 
 // ======================
@@ -440,4 +441,9 @@ window.addEventListener("storage", () => {
 
     renderTables();
     renderStats();
+    loadDashboard();
+
+    if(typeof loadOrders === "function"){
+        loadOrders();
+    }
 });
